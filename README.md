@@ -12,7 +12,7 @@ The system will have an API for querying with a subset of these parameters and r
 e.g., “A vegetarian Italian restaurant that is open now”  should return a JSON object with the restaurant and all its properties:
 ```json
 {
-    "restaurantRecommendation": {`
+    "restaurantRecommendation": {
     "name": "Pizza Hut",
     "style": "Italian",
     "address": "Wherever Street 99, Somewhere",
@@ -54,7 +54,9 @@ IaC: Terraform
 ### Architecture
 
 **Authentication**
-![alt text](./Images/authentication.png)
+
+![alt text](Images/authentication.png)
+
 Description 
 * Authentication via GitHub Actions to Azure resources - Implemented via a service principal. The secret for authenticating with Azure is embedded into GitHub secrets. This step is required as a one-time onboarding step and for rotating the secret in the future.
 * AKS and ACR resources support Microsoft Entra authentication. Therefore, we can utilize Managed Identity to eliminate the need for developers to manage credentials manually.
