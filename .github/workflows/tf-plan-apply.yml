@@ -76,14 +76,14 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: tfplan
-        path: tfplan
+        path: ./Provision-Infrastructure/tfplan
         
     # Create string output of Terraform Plan
     - name: Create String Output
       id: tf-plan-string
       working-directory: ./Provision-Infrastructure
       run: |
-        TERRAFORM_PLAN=$(terraform show -no-color tfplan)
+        TERRAFORM_PLAN=$(terraform show -no-color ./Provision-Infrastructure/tfplan)
         
         delimiter="$(openssl rand -hex 8)"
         echo "summary<<${delimiter}" >> $GITHUB_OUTPUT
@@ -103,22 +103,6 @@ jobs:
       run: |
         echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
       
-    # # If this is a PR post the changes
-    # - name: Push Terraform Output to PR
-    #   if: github.ref != 'refs/heads/main'
-    #   uses: actions/github-script@v7
-    #   env:
-    #     SUMMARY: "${{ steps.tf-plan-string.outputs.summary }}"
-    #   with:
-    #       github-token: ${{ secrets.GITHUB_TOKEN }}
-    #       script: |
-    #         const body = `${process.env.SUMMARY}`;
-    #         github.rest.issues.createComment({
-    #             issue_number: context.issue.number,
-    #             owner: context.repo.owner,
-    #             repo: context.repo.repo,
-    #             body: body
-    #         })
                 
   terraform-apply:
     name: 'Terraform Apply'
