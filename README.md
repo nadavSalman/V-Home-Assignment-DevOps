@@ -57,6 +57,145 @@ IaC: Terraform
 
 ![alt text](Images/authentication.png)
 
-Description 
+**Description** 
 * Authentication via GitHub Actions to Azure resources - Implemented via a service principal. The secret for authenticating with Azure is embedded into GitHub secrets. This step is required as a one-time onboarding step and for rotating the secret in the future.
 * Azure resources communication - AKS and ACR resources support Microsoft Entra authentication. Therefore, we can utilize Managed Identity to eliminate the need for developers to manage credentials manually.
+
+
+
+
+---
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+
+**Terraform Architecture**
+GitHub Actions workflows to manage Azure infrastructure with Terraform.
+
+
+1. Create a new branch and check in the needed Terraform code modifications.
+2. Create a Pull Request (PR) in GitHub once you're ready to merge your changes into your environment.
+3. A GitHub Actions workflow will trigger to ensure your code is well formatted, internally consistent, and produces secure infrastructure. In addition, a Terraform plan will run to generate a preview of the changes that will happen in your Azure environment.
+4. Once appropriately reviewed, the PR can be merged into your main branch.
+5. Another GitHub Actions workflow will trigger from the main branch and execute the changes using Terraform.
+
+**Onbording**
+
+1. Create `Service Principal` for Githu action create resources on teh target subscription.
+2. Terrafrom backend state - Create Azure blob storage as remote backend
+    * Update `backend` block.
+3. Ingest `secrets` into Github
+
+---
+
+
+**Steps**
+
+1. Provision Azure resource : `Service Principal` [**Day 0**]
+    * Create ENV var named TAREGT_SUBSCRIPTION with the target subscsription ID as value and save inisde a file name `.env`  under `Provision-Infrastructure` dir .
+    * Run the script for creation `Service Principal` at `Provision-Infrastructure/scripts/init-service-principal.sh`, the script will load the env `TAREGT_SUBSCRIPTION` from teh `.env` file
+    *  Extract the env from the az coomnd output 
+```bash
+./init-service-principal.sh
+...
+
+# The az command below will create an app registration and service principal
+az ad sp create-for-rbac -n ProvisionInfrastructure --role="Contributor" --scopes="/subscriptions/$TAREGT_SUBSCRIPTION"
+
+The output includes credentials that you must protect. Be sure that you do not include these credentials in your code or check the credentials into your source control. For more information, see https://aka.ms/azadsp-cli
+{
+  "appId": "***", # client_id
+  "displayName": "ProvisionInfrastructure",
+  "password": "***", # client_secret
+  "tenant": "***" # tenant_id
+}
+
+
+These values map to the Terraform variables like so:
+
+appId is the client_id defined above.
+password is the client_secret defined above.
+tenant is the tenant_id defined above.
+```
+
+Append the env varibels the .env file :
+
+```bash
+export TAREGT_SUBSCRIPTION='' # Subscription ID
+export CLIENT_ID=""
+export CLIENT_SECRET=""
+export TENANT_ID=""
+```
+
+Test the `Service Principal` , using the script located at : `Provision-Infrastructure/scripts/test-service-principal.sh`
+
+```bash
+source  .env
+az login --service-principal -u $CLIENT_ID -p $CLIENT_SECRET --tenant $TENANT_ID
+
+# Once logged in as the Service Principal - we should be able to list the VM sizes by specifying an Azure region, for example here we use the West US region:
+
+az vm list-sizes --location westus
+az account list-locations
+
+az logout
+```
+
+
+
+2. Terrafrom backend state
+
+In case the target subscription is a new one validate the providers below are registerd to alow resources creation :
+```bash
+az provider register --namespace Microsoft.Storage
+az provider register --namespace Microsoft.Compute
+az provider register --namespace Microsoft.Network
+```
+
+
+Run the script at : `Provision-Infrastructure/scripts/remote-state.sh` to create an Azure storage account and container:
+```bash
+#!/bin/bash
+
+RANDOM_STRING=$(head /dev/urandom | tr -dc a-z0-9 | head -c 10)
+RESOURCE_GROUP_NAME=tfstate
+STORAGE_ACCOUNT_NAME=tfstate$RANDOM_STRING
+CONTAINER_NAME=tfstate
+
+az group create --name $RESOURCE_GROUP_NAME --location eastus
+az storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_ACCOUNT_NAME --sku Standard_LRS --encryption-services blob
+az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
+```
+
+
+Update the Storage Account name to the backed block and commit you changes.
+```terraform
+  backend "azurerm" {
+      resource_group_name  = "tfstate"
+      storage_account_name = "<storage_account_name>"
+      container_name       = "tfstate"
+      key                  = "terraform.tfstate"
+  }
+```
+
+
+
+Initialize `GitHu Action secrets`
+
+```
+export ARM_CLIENT_ID="00000000-0000-0000-0000-000000000000"
+export ARM_CLIENT_SECRET="12345678-0000-0000-0000-000000000000"
+export ARM_TENANT_ID="10000000-0000-0000-0000-000000000000"
+export ARM_SUBSCRIPTION_ID="20000000-0000-0000-0000-000000000000"
+```
+
