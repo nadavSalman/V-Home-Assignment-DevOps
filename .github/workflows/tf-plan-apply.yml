@@ -83,7 +83,7 @@ jobs:
       id: tf-plan-string
       working-directory: ./Provision-Infrastructure
       run: |
-        TERRAFORM_PLAN=$(terraform show -no-color ./Provision-Infrastructure/tfplan)
+        TERRAFORM_PLAN=$(terraform show -no-color tfplan)
         
         delimiter="$(openssl rand -hex 8)"
         echo "summary<<${delimiter}" >> $GITHUB_OUTPUT
