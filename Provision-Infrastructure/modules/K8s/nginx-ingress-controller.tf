@@ -3,7 +3,7 @@ data "azurerm_kubernetes_cluster" "this" {
   resource_group_name = azurerm_resource_group.k8s_rg.name
 
   # Comment this out if you get: Error: Kubernetes cluster unreachable 
-  # depends_on = [azurerm_kubernetes_cluster.default]
+  depends_on = [azurerm_kubernetes_cluster.default]
 }
 
 provider "helm" {
@@ -15,15 +15,15 @@ provider "helm" {
   }
 }
 
-resource "helm_release" "external_nginx" {
-  depends_on = [azurerm_kubernetes_cluster.default]
-  name       = "nginx-ingress-controller-external"
+# resource "helm_release" "external_nginx" {
+#   depends_on = [azurerm_kubernetes_cluster.default]
+#   name       = "nginx-ingress-controller-external"
 
-  repository       = "https://kubernetes.github.io/ingress-nginx"
-  chart            = "ingress-nginx"
-  namespace        = "ingress"
-  create_namespace = true
-  version          = "4.8.0"
+#   repository       = "https://kubernetes.github.io/ingress-nginx"
+#   chart            = "ingress-nginx"
+#   namespace        = "ingress"
+#   create_namespace = true
+#   version          = "4.8.0"
 
-  values = [file("${path.module}/nginx-ingress-controller-values/ingress.yaml")]
-}
+#   values = [file("${path.module}/nginx-ingress-controller-values/ingress.yaml")]
+# }

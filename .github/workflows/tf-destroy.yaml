@@ -1,0 +1,29 @@
+name: 'Terraform Destroy'
+
+on:
+  workflow_dispatch: 
+
+#Special permissions required for OIDC authentication
+permissions:
+    id-token: write
+    contents: read
+    pull-requests: write
+  
+  #These environment variables are used by the terraform azure provider to setup OIDD authenticate. 
+  env:
+    ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+    ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+    ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+    ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+
+jobs:
+    terraform-apply:
+        name: 'Terraform Destroy'
+        runs-on: ubuntu-latest
+        environment: production
+        
+        steps:
+        # Terraform Destroy
+        - name: Terraform Destroy
+          working-directory: ./Provision-Infrastructure
+          run: terraform destroy -auto-approve 

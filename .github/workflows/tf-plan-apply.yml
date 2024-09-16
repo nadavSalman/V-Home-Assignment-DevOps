@@ -137,10 +137,10 @@ jobs:
         path: ./Provision-Infrastructure/
 
 
-    # Terraform Destroy
-    - name: Terraform Destroy
-      working-directory: ./Provision-Infrastructure
-      run: terraform destroy -auto-approve 
+    # # Terraform Destroy
+    # - name: Terraform Destroy
+    #   working-directory: ./Provision-Infrastructure
+    #   run: terraform destroy -auto-approve 
 
     # Terraform Apply
     - name: Terraform Apply
