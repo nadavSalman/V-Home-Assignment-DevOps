@@ -39,7 +39,7 @@ jobs:
     - name: Terraform Destroy
       working-directory: ./Provision-Infrastructure
       run: |
-        terraform destroy -auto-approve
         terraform state rm module.K8sInfra.azurerm_kubernetes_cluster.default
         terraform state rm module.K8sInfra.helm_release.external_nginx
+        terraform destroy -auto-approve
 
