@@ -19,5 +19,5 @@ module "BackendStorageSystem" {
 module "K8sInfra" {
   source = "./modules/K8s"
 
-  rg_name = "${module.BackendStorageSystem.rg_name}_2"
+  rg_name = "${module.BackendStorageSystem.rg_name}_copy"
 }
