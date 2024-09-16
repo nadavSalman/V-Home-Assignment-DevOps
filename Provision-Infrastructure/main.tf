@@ -22,6 +22,6 @@ module "BackendStorageSystem" {
   # Init module arguments
   rg_name = "rg-backend-storage-system-prd"
 
-  depends_on = [ module.K8sInfra ]
+  depends_on = [module.K8sInfra]
 }
 
