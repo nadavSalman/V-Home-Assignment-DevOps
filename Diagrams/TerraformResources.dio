@@ -1,0 +1,31 @@
+<mxfile host="65bd71144e">
+    <diagram id="2ZzIeTZm85hOqECLrYgQ" name="Page-1">
+        <mxGraphModel dx="2030" dy="1303" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="6" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Comic Sans MS;" vertex="1" parent="1">
+                    <mxGeometry x="21" y="37" width="1015" height="658" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="azure_virtual_network" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Comic Sans MS;" vertex="1" parent="1">
+                    <mxGeometry x="61" y="35" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Comic Sans MS;" vertex="1" parent="1">
+                    <mxGeometry x="64" y="110" width="291" height="248" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="azure_subnet [1]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Comic Sans MS;" vertex="1" parent="1">
+                    <mxGeometry x="64" y="102" width="106" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Comic Sans MS;" vertex="1" parent="1">
+                    <mxGeometry x="61" y="389" width="278" height="234" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="azure_subnet [2]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Comic Sans MS;" vertex="1" parent="1">
+                    <mxGeometry x="61" y="383" width="106" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="Managed Identity :&amp;nbsp;&amp;nbsp;azurerm_user_assigned_identity" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Comic Sans MS;" vertex="1" parent="1">
+                    <mxGeometry x="581" y="72" width="321" height="38" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
