@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "demo" {
-  name     = "state-demo"
+  name     = "rg-backend-storage-system"
   location = "eastus"
 }

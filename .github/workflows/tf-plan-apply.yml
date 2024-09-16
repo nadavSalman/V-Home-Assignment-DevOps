@@ -76,7 +76,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: tfplan
-        path: ./Provision-Infrastructure/tfplan
+        path: ./Provision-Infrastructure
         
     # Create string output of Terraform Plan
     - name: Create String Output
@@ -135,4 +135,4 @@ jobs:
     # Terraform Apply
     - name: Terraform Apply
       working-directory: ./Provision-Infrastructure
-      run: terraform apply -auto-approve 
+      run: terraform apply -auto-approve tfplan
