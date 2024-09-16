@@ -2,7 +2,7 @@ resource "azurerm_user_assigned_identity" "aks" {
   location            = azurerm_resource_group.k8s_rg.location
   name                = "${random_pet.rg.id}-uai"
   resource_group_name = azurerm_resource_group.k8s_rg.name
-  depends_on = [ azurerm_resource_group.k8s_rg ]
+  depends_on          = [azurerm_resource_group.k8s_rg]
 }
 
 resource "azurerm_role_assignment" "aks_network" {
