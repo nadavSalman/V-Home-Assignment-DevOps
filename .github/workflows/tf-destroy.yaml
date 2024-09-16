@@ -1,29 +1,38 @@
 name: 'Terraform Destroy'
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
 
-#Special permissions required for OIDC authentication
+# Special permissions required for OIDC authentication
 permissions:
-    id-token: write
-    contents: read
-    pull-requests: write
-  
-  #These environment variables are used by the terraform azure provider to setup OIDD authenticate. 
-  env:
-    ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
-    ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
-    ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
-    ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+  id-token: write
+  contents: read
+  pull-requests: write
 
 jobs:
-    terraform-apply:
-        name: 'Terraform Destroy'
-        runs-on: ubuntu-latest
-        environment: production
-        
-        steps:
-        # Terraform Destroy
-        - name: Terraform Destroy
-          working-directory: ./Provision-Infrastructure
-          run: terraform destroy -auto-approve 
+  terraform-destroy:
+    name: 'Terraform Destroy'
+    runs-on: ubuntu-latest
+    environment: production
+
+    env:
+      ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+      ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+      ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+      ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up Terraform
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.6  # Adjust as needed
+
+      # Terraform Destroy
+      - name: Terraform Destroy
+        working-directory: ./Provision-Infrastructure
+        run: terraform destroy -auto-approve
