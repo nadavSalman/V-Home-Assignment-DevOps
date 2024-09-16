@@ -14,4 +14,4 @@ az login
 az account set --subscription=$TAREGT_SUBSCRIPTION 
 
 # We can now create the Service Principal which will have permissions to manage resources in the specified Subscription using the following command:
-az ad sp create-for-rbac -n ProvisionInfrastructure --role="Contributor" --scopes="/subscriptions/$TAREGT_SUBSCRIPTION"
+az ad sp create-for-rbac -n ProvisionInfrastructure --role="Owner"  --scopes="/subscriptions/$TAREGT_SUBSCRIPTION"

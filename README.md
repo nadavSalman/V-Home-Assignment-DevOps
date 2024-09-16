@@ -111,7 +111,7 @@ GitHub Actions workflows manage Azure infrastructure with Terraform.
 ...
 
 # The az command below will create an app registration and service principal
-az ad sp create-for-rbac -n ProvisionInfrastructure --role="Contributor" --scopes="/subscriptions/$TAREGT_SUBSCRIPTION"
+az ad sp create-for-rbac -n ProvisionInfrastructure --role="Owner"  --scopes="/subscriptions/$TAREGT_SUBSCRIPTION"
 
 The output includes credentials that you must protect. Be sure that you do not include these credentials in your code or check the credentials into your source control. For more information, see https://aka.ms/azadsp-cli
 {
