@@ -8,12 +8,6 @@ terraform {
 }
 
 
-module "BackendStorageSystem" {
-  source = "./modules/BackendStorageSystem"
-
-  # Init module arguments
-  rg_name = "rg-backend-storage-system-prd"
-}
 
 
 module "K8sInfra" {
@@ -21,3 +15,13 @@ module "K8sInfra" {
 
   rg_name = "kubernetesvaronis"
 }
+
+module "BackendStorageSystem" {
+  source = "./modules/BackendStorageSystem"
+
+  # Init module arguments
+  rg_name = "rg-backend-storage-system-prd"
+
+  depends_on = [ module.K8sInfra ]
+}
+
