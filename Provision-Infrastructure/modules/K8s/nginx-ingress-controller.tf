@@ -17,7 +17,7 @@ provider "helm" {
 
 resource "helm_release" "external_nginx" {
   depends_on = [azurerm_kubernetes_cluster.default]
-  name       = "external"
+  name       = "nginx-ingress-controller-external"
 
   repository       = "https://kubernetes.github.io/ingress-nginx"
   chart            = "ingress-nginx"
