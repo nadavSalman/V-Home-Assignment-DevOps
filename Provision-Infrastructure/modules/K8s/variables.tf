@@ -31,7 +31,7 @@ variable "location" {
 variable "node_count" {
   type        = number
   description = "The number of K8S nodes to provision."
-  default     = 2
+  default     = 1
 }
 
 variable "node_type" {
