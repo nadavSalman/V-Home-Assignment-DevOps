@@ -12,5 +12,12 @@ module "BackendStorageSystem" {
   source = "./modules/BackendStorageSystem"
 
   # Init module arguments
-  rg-name = "rg-backend-storage-system-prd"
+  rg_name = "rg-backend-storage-system-prd"
+}
+
+
+module "K8sInfra" {
+  source = "./modules/K8s"
+
+  rg_name = "${module.BackendStorageSystem.rg_name}_2"
 }
