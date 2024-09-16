@@ -80,7 +80,8 @@ IaC: Terraform
 
 
 **Terraform Architecture**
-GitHub Actions workflows to manage Azure infrastructure with Terraform.
+
+GitHub Actions workflows manage Azure infrastructure with Terraform.
 
 
 1. Create a new branch and check in the needed Terraform code modifications.
@@ -142,12 +143,8 @@ Test the `Service Principal` , using the script located at : `Provision-Infrastr
 ```bash
 source  .env
 az login --service-principal -u $CLIENT_ID -p $CLIENT_SECRET --tenant $TENANT_ID
-
-# Once logged in as the Service Principal - we should be able to list the VM sizes by specifying an Azure region, for example here we use the West US region:
-
 az vm list-sizes --location westus
 az account list-locations
-
 az logout
 ```
 
@@ -165,8 +162,6 @@ az provider register --namespace Microsoft.Network
 
 Run the script at : `Provision-Infrastructure/scripts/remote-state.sh` to create an Azure storage account and container:
 ```bash
-#!/bin/bash
-
 RANDOM_STRING=$(head /dev/urandom | tr -dc a-z0-9 | head -c 10)
 RESOURCE_GROUP_NAME=tfstate
 STORAGE_ACCOUNT_NAME=tfstate$RANDOM_STRING
