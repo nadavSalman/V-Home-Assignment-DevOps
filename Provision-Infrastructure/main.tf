@@ -10,4 +10,7 @@ terraform {
 
 module "BackendStorageSystem" {
   source = "./modules/BackendStorageSystem"
+
+  # Init module arguments
+  rg-name = "rg-backend-storage-system-prd"
 }

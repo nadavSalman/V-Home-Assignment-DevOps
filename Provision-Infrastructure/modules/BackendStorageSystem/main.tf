@@ -1,8 +1,4 @@
-
-
-
-
 resource "azurerm_resource_group" "demo" {
-  name     = "rg-backend-storage-system"
+  name     = var.rg-name
   location = "eastus"
 }

@@ -198,4 +198,11 @@ export ARM_CLIENT_SECRET="12345678-0000-0000-0000-000000000000"
 export ARM_TENANT_ID="10000000-0000-0000-0000-000000000000"
 export ARM_SUBSCRIPTION_ID="20000000-0000-0000-0000-000000000000"
 ```
+You cam use above env to investigate remote state interaction for example to run `terrafom init`.
+
+
+Update github secrets. 
+Navigate to The repo `Actions` > `Secrets and variables` > `Actions` , then click on `New repository secret` to set up nthe `ARM_*` above as secret for Flows (CI-CD).
+
+![alt text](Images/GithubActionSecrets.png)
 
