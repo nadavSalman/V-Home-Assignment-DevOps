@@ -24,7 +24,7 @@ env:
   ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
 
   # Enable debug logging in Terraform
-  TF_LOG: DEBUG
+  # TF_LOG: DEBUG
 
 jobs:
   terraform-plan:
@@ -148,6 +148,12 @@ jobs:
         az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
         terraform apply -auto-approve tfplan
 
+    # Save prep_deployment.yaml to artifacts  
+    - name: Save prep_deployment.yaml to artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: prep_deployment
+        path: ./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml
 
     # # Terraform Apply
     # - name: Terraform Apply
