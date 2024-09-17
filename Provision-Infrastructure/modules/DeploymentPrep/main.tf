@@ -34,9 +34,8 @@ resource "local_file" "prep_deployment" {
 resource "local_file" "service_account" {
   content = templatefile("${path.module}/templets/service_acount.tftpl",
     {
-      client_id = "11111"
+      client_id = var.storace_accoun_uai_client_id
     }
   )
   filename = "${path.module}/service_acount.yaml"
-
 }

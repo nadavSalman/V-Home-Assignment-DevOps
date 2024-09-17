@@ -48,3 +48,10 @@ output "storage_container_name" {
 output "aks_rg_name" {
   value = azurerm_resource_group.k8s_rg.name
 }
+
+
+
+output "backend_storage_system_uai_client_id" {
+  # value = azurerm_federated_identity_credential.backend_storage_system.client_id
+  value = azurerm_user_assigned_identity.backend_storage_system.client_id
+}

@@ -21,3 +21,7 @@ variable "aks_rg_name" {
 variable "container_name" {
   type = string
 }
+
+variable "storace_accoun_uai_client_id" {
+  type = string
+}
