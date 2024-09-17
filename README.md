@@ -61,9 +61,6 @@ IaC: Terraform
 * Authentication via GitHub Actions to Azure resources - Implemented via a service principal. The secret for authenticating with Azure is embedded into GitHub secrets. This step is required as a one-time onboarding step and for rotating the secret in the future.
 * Azure resources communication - AKS and ACR resources support Microsoft Entra authentication. Therefore, we can utilize Managed Identity to eliminate the need for developers to manage credentials manually.
 
-
-
-
 ---
 
 
@@ -200,4 +197,130 @@ Update github secrets.
 Navigate to The repo `Actions` > `Secrets and variables` > `Actions` , then click on `New repository secret` to set up nthe `ARM_*` above as secret for Flows (CI-CD).
 
 ![alt text](Images/GithubActionSecrets.png)
+
+Create INfrastructure : 
+Therer ate two flow witch aoutomatiocly trrigerd to provision infrastructure using terrafom acording to teh auth diagram above.
+
+
+
+
+
+**Validat Workload Identity**
+
+
+```bash
+❯ # azurerm_user_assigned_identity.backend_storage_system.client_id
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backend-storage-system-sa
+  namespace: default
+  annotations:
+    azure.workload.identity/client-id: cd67baa1-3a29-49ce-8b25-805e272ca0bb
+EOF
+serviceaccount/backend-storage-system-sa created
+```
+
+
+Deploy az-cli continer and exec :
+```bash
+Varonis-Home-Assignment-DevOps/K8sDeployment on  main [!] 
+❯ k get pods 
+NAME                        READY   STATUS    RESTARTS   AGE
+azure-cli-b95fb75c9-zfxs4   1/1     Running   0          4s
+
+Varonis-Home-Assignment-DevOps/K8sDeployment on  main [!] 
+❯ k exec -it azure-cli-b95fb75c9-zfxs4 -- sh
+/ # az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_T
+ENANT_ID
+
+[
+  {
+    "cloudName": "AzureCloud",
+    "homeTenantId": "ffddc7a9-43af-4b3e-b7a4-920460792882",
+    "id": "a0a57880-1a49-461b-a574-8c926ae8c347",
+    "isDefault": true,
+    "managedByTenants": [],
+    "name": "Azure subscription 1",
+    "state": "Enabled",
+    "tenantId": "ffddc7a9-43af-4b3e-b7a4-920460792882",
+    "user": {
+      "name": "cd67baa1-3a29-49ce-8b25-805e272ca0bb",
+      "type": "servicePrincipal"
+    }
+  }
+]
+/ # 
+/ # az storage blob list -c restaurants --account-name devtest2391276 
+
+There are no credentials provided in your command and environment, we will query for account key for your storage account.
+It is recommended to provide --connection-string, --account-key or --sas-token in your command as credentials.
+
+You also can add `--auth-mode login` in your command to use Azure Active Directory (Azure AD) for authorization if your login account is assigned required RBAC roles.
+For more information about RBAC roles in storage, visit https://docs.microsoft.com/azure/storage/common/storage-auth-aad-rbac-cli.
+
+In addition, setting the corresponding environment variables can avoid inputting credentials in your command. Please use --help to get more information about environment variable usage.
+[]
+/ # 
+```
+
+Upload blob :
+
+```bash
+/ # echo "Varonis" >  varonis.txt
+/ # cat varonis.txt 
+Varonis
+/ # az storage blob upload \
+>   --account-name devtest2391276 \
+>   --container-name restaurants \
+>   --name "varonis" \
+>   --file ./varonis.txt
+
+There are no credentials provided in your command and environment, we will query for account key for your storage account.
+It is recommended to provide --connection-string, --account-key or --sas-token in your command as credentials.
+
+You also can add `--auth-mode login` in your command to use Azure Active Directory (Azure AD) for authorization if your login account is assigned required RBAC roles.
+For more information about RBAC roles in storage, visit https://docs.microsoft.com/azure/storage/common/storage-auth-aad-rbac-cli.
+
+In addition, setting the corresponding environment variables can avoid inputting credentials in your command. Please use --help to get more information about environment variable usage.
+Finished[#############################################################]  100.0000%
+{
+  "client_request_id": "8423df30-7514-11ef-adb8-d28398960d69",
+  "content_md5": "I2jFR/47b8Tx/JkgJFuo1w==",
+  "date": "2024-09-17T16:47:24+00:00",
+  "encryption_key_sha256": null,
+  "encryption_scope": null,
+  "etag": "\"0x8DCD7386860D6F1\"",
+  "lastModified": "2024-09-17T16:47:24+00:00",
+  "request_id": "ea975121-c01e-0089-2621-09d7c0000000",
+  "request_server_encrypted": true,
+  "version": "2022-11-02",
+  "version_id": null
+}
+/ # 
+
+/ # az storage blob list -c restaurants --account-name devtest2391276 
+
+There are no credentials provided in your command and environment, we will query for account key for your storage account.
+It is recommended to provide --connection-string, --account-key or --sas-token in your command as credentials.
+
+You also can add `--auth-mode login` in your command to use Azure Active Directory (Azure AD) for authorization if your login account is assigned required RBAC roles.
+For more information about RBAC roles in storage, visit https://docs.microsoft.com/azure/storage/common/storage-auth-aad-rbac-cli.
+
+In addition, setting the corresponding environment variables can avoid inputting credentials in your command. Please use --help to get more information about environment variable usage.
+[
+  {
+    "container": "restaurants",
+    "content": "",
+    "deleted": null,
+    "encryptedMetadata": null,
+    "encryptionKeySha256": null,
+    "encryptionScope": null,
+    "hasLegalHold": null,
+    "hasVersionsOnly": null,
+    ...
+```
+
+![alt text](Images/varonix-blob.png)
 

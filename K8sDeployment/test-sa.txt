@@ -6,5 +6,16 @@ metadata:
   name: backend-storage-system-sa
   namespace: default
   annotations:
-    azure.workload.identity/client-id: 455528dc-5cbc-44ff-944a-5345af508f15
+    azure.workload.identity/client-id: cd67baa1-3a29-49ce-8b25-805e272ca0bb
 EOF
+
+
+
+
+
+
+az storage blob upload \
+  --account-name devtest2391276 \
+  --container-name restaurants \
+  --name "varonis" \
+  --file ./varonis.txt
