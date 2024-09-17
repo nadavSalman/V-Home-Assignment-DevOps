@@ -319,3 +319,42 @@ In addition, setting the corresponding environment variables can avoid inputting
 
 ![alt text](Images/varonix-blob.png)
 
+
+<br/>
+<br/>
+<br/>
+
+**Validate ACR Image Pull Secret** 
+
+Import an image into your ACR :
+```bash
+az acr import --name tfqvaronisquetzalacr --source docker.io/library/nginx:latest --image nginx:v1
+```
+
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-awesome-app-pod
+  namespace: default
+spec:
+  containers:
+    - name: main-app-container
+      image: tfqvaronisquetzalacr.azurecr.io/nginx:v1
+      imagePullPolicy: IfNotPresent
+  imagePullSecrets:
+    - name: acr-secret
+
+EOF
+```
+Chek :
+
+```bash
+Varonis-Home-Assignment-DevOps on  main [!] 
+❯ k describe pod my-awesome-app-pod | grep -e "pulled image"
+  Normal  Pulled     110s  kubelet            Successfully pulled image "tfqvaronisquetzalacr.azurecr.io/nginx:v1" in 5.492s (5.492s including waiting)
+
+Varonis-Home-Assignment-DevOps on  main [!]
+```
