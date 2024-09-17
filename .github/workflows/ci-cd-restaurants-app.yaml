@@ -28,7 +28,7 @@ jobs:
 
 
 
-      - name: Build Image and Push to ACR
+      - name: Load ACR name
         # working-directory: ./Provision-Infrastructure
         run: |
           ACR_NAME=$(yq eval '.AzureResources.ACR.name' "$yaml_file")
@@ -44,7 +44,7 @@ jobs:
       - name: Build Docker image
         working-directory: ./RestaurantApp
         run: |
-          docker build -t .azurecr.io/restaurants-app:${{ env.IMAGE_TAG }} .
+          docker build -t ${{ env.ACR_NAME }}.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }} .
 
       - name: Push Docker image
         working-directory: ./RestaurantApp
