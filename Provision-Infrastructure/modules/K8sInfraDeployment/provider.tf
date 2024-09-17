@@ -11,7 +11,7 @@ terraform {
 
 provider "kubernetes" {
   host                   = var.aks_host
-  cluster_ca_certificate = base64decode(var.aks_cluster_ca_certificate)
+  cluster_ca_certificate = var.aks_cluster_ca_certificate
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     args        = ["aks", "get-credentials", "--resource-group", var.aks_rg, "--name", var.aks_name]
