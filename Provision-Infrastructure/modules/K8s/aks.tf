@@ -43,3 +43,13 @@ data "azurerm_kubernetes_cluster" "this" {
   # Comment this out if you get: Error: Kubernetes cluster unreachable 
   depends_on = [azurerm_kubernetes_cluster.default]
 }
+
+
+resource "null_resource" "get_kubeconfig" {
+  provisioner "local-exec" {
+    command = "az aks get-credentials --resource-group ${azurerm_kubernetes_cluster.default.resource_group_name} --name ${azurerm_kubernetes_cluster.default.name}"
+  }
+
+  depends_on = [azurerm_kubernetes_cluster.default]
+
+}

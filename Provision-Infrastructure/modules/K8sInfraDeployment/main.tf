@@ -1,8 +1,8 @@
-resource "null_resource" "get_kubeconfig" {
-  provisioner "local-exec" {
-    command = "az aks get-credentials --resource-group ${var.aks_resource_group} --name ${var.aks_cluster_name}"
-  }
-}
+# resource "null_resource" "get_kubeconfig" {
+#   provisioner "local-exec" {
+#     command = "az aks get-credentials --resource-group ${var.aks_resource_group} --name ${var.aks_cluster_name}"
+#   }
+# }
 
 provider "helm" {
   kubernetes {
