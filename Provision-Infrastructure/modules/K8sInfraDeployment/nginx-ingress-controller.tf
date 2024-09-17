@@ -8,4 +8,6 @@ resource "helm_release" "external_nginx" {
   version          = "4.8.0"
 
   values = [file("${path.module}/nginx-ingress-controller-values/ingress.yaml")]
+
+  depends_on = [ null_resource.get_kubeconfig ]
 }

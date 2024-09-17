@@ -17,3 +17,14 @@ variable "aks_cluster_ca_certificate" {
   type        = string
   description = "The base64 decoded cluster CA certificate for the AKS cluster."
 }
+
+
+variable "aks_resource_group" {
+  type    = string
+  default = ""
+}
+
+variable "aks_cluster_name" {
+  type    = string
+  default = ""
+}

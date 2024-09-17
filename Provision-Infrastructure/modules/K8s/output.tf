@@ -23,3 +23,12 @@ output "kube_config" {
   value = data.azurerm_kubernetes_cluster.this.kube_config_raw
 }
 
+
+
+output "aks_cluster_name" {
+  value = data.azurerm_kubernetes_cluster.this.name
+}
+
+output "aks_rg_name" {
+  value = data.azurerm_kubernetes_cluster.this.resource_group_name
+}

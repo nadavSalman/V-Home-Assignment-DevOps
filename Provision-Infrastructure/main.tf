@@ -23,4 +23,6 @@ module "K8sInfraDeployment" {
   aks_client_certificate     = module.K8sInfra.aks_client_certificate
   aks_client_key             = module.K8sInfra.aks_client_key
   aks_cluster_ca_certificate = module.K8sInfra.aks_cluster_ca_certificate
+  aks_cluster_name = module.K8sInfra.aks_cluster_name
+  aks_resource_group = module.K8sInfra.aks_rg_name 
 }
