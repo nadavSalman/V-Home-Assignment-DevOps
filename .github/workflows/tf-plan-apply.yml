@@ -15,7 +15,7 @@ permissions:
   id-token: write
   contents: write
   pull-requests: write
-
+  
 #These environment variables are used by the terraform azure provider to setup OIDD authenticate. 
 env:
   ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"

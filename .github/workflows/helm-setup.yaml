@@ -2,11 +2,18 @@
 name: 'Helm Chart Setup'
 
 on:
-    
+  
   workflow_run:
     workflows: ["Terraform Plan/Apply"]
     types:
       - completed
+
+
+env:
+  ARM_CLIENT_ID: "${{ secrets.ARM_CLIENT_ID }}"
+  ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
+  ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
+  ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
 
 jobs:
   download:
@@ -14,23 +21,35 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Download prep_deployment.yaml
-        uses: actions/download-artifact@v4
-        with:
-          name: prep_deployment
-
-      - name: Download service_acount.yaml
-        uses: actions/download-artifact@v4
-        with:
-          name: service_acount
-
-      - name: Use prep_deployment.yaml
+    
+      - name: AKS get-cred
+        working-directory: ./Provision-Infrastructure
         run: |
-          cat prep_deployment.yaml
-          # Add commands to use the prep_deployment.yaml file
+          yaml_file="./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml"
 
-      - name: Use service_acount.yaml
+          # Extract values using yq
+          resource_group_name=$(yq eval '.AzureResources.AKS.ResourceGroup' "$yaml_file")
+          aks_name=$(yq eval '.AzureResources.AKS.name' "$yaml_file")
+
+          echo "Resource Group Name for AKS: $resource_group_name"
+          echo "AKS Name: $aks_name"
+          echo "Resource Group Name for Backend Storage: $backend_storage_rg"
+
+          az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+          az aks get-credentials --resource-group $resource_group_name  --name $aks_name
+
+          
+
+
+      - name: Helm Install/Upgrade Nginx ingress Controller
+        working-directory: ./Provision-Infrastructure
         run: |
-          cat service_acount.yaml
-          # Add commands to use the service_acount.yaml file
+          helm upgrade --install external \
+          --repo https://kubernetes.github.io/ingress-nginx \
+          ingress-nginx \
+          --namespace ingress \
+          --create-namespace \
+          --version 4.8.0 \
+          --values path/to/values/ingress.yaml
+
+
