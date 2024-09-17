@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: restaurants-app
-  tag: 2024-09-17-22-51
+  tag: 2024-09-17-23-07
 
 imagePullSecrets:
   - name: acr-secret
@@ -77,11 +77,11 @@ resources: {}
 livenessProbe:
   httpGet:
     path: /endpoints
-    port: http
+    port: 5000
 readinessProbe:
   httpGet:
     path: /endpoints
-    port: http
+    port: 5000
 
 autoscaling:
   enabled: false
