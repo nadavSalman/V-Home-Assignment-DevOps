@@ -142,10 +142,9 @@ jobs:
         path: ./Provision-Infrastructure/
 
 
-    - name: 'Login to Azure AND Terraform Apply'
+    - name: 'Terraform Apply'
       working-directory: ./Provision-Infrastructure
       run: |
-        az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
         terraform apply -auto-approve tfplan
 
     # Save prep_deployment.yaml to artifacts  
@@ -160,7 +159,8 @@ jobs:
       with:
         name: service_acount
         path: ./Provision-Infrastructure/modules/DeploymentPrep/service_acount.yaml
-    # # Terraform Apply
+   
+        # # Terraform Apply
     # - name: Terraform Apply
     #   working-directory: ./Provision-Infrastructure
     #   run: terraform apply -auto-approve tfplan
