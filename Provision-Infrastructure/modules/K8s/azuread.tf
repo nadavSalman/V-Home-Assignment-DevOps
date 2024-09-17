@@ -29,7 +29,7 @@ resource "azurerm_user_assigned_identity" "backend_storage_system" {
   resource_group_name = azurerm_resource_group.k8s_rg.name
 }
 
-resource "azurerm_federated_identity_credential" "dev_test" {
+resource "azurerm_federated_identity_credential" "backend_storage_system" {
   name                = local.identity_name
   resource_group_name = azurerm_resource_group.k8s_rg.name
   audience            = ["api://AzureADTokenExchange"]

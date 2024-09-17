@@ -14,7 +14,7 @@ data "template_file" "prep_deployment" {
 
 
 
-resource "local_file" "foo" {
+resource "local_file" "prep_deployment" {
   content = templatefile("${path.module}/templets/prep_deployment.tftpl",
     {
       subscription_id      = var.subscription_id
@@ -26,4 +26,17 @@ resource "local_file" "foo" {
     }
   )
   filename = "${path.module}/prep_deployment.yaml"
+}
+
+
+
+
+resource "local_file" "service_account" {
+  content = templatefile("${path.module}/templets/service_acount.tftpl",
+    {
+      client_id = "11111"
+    }
+  )
+  filename = "${path.module}/service_acount.yaml"
+
 }
