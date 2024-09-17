@@ -19,7 +19,6 @@ resource "azurerm_role_assignment" "aks_acr" {
 
 
 # Workload Identity
-
 locals {
   identity_name = "backend_storage_system"
 }

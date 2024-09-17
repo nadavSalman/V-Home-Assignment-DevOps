@@ -16,13 +16,13 @@ module "K8sInfra" {
   rg_name = "kubernetesvaronis"
 }
 
-# module "K8sInfraDeployment" {
-#   source = "./modules/K8sInfraDeployment"
 
-#   aks_host                   = module.K8sInfra.aks_host
-#   aks_client_certificate     = module.K8sInfra.aks_client_certificate
-#   aks_client_key             = module.K8sInfra.aks_client_key
-#   aks_cluster_ca_certificate = module.K8sInfra.aks_cluster_ca_certificate
-#   aks_cluster_name           = module.K8sInfra.aks_cluster_name
-#   aks_resource_group         = module.K8sInfra.aks_rg_name
-# }
+module "K8sInfraDeployment" {
+  source = "./modules/K8sInfraDeployment"
+
+  aks_name = module.K8sInfra.aks_cluster_name
+  aks_rg = module.K8sInfra.aks_rg_name
+  aks_host = module.K8sInfra.aks_host
+  aks_cluster_ca_certificate = module.K8sInfra.aks_cluster_ca_certificate
+
+}
