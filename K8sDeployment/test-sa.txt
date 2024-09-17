@@ -1,3 +1,4 @@
+# azurerm_user_assigned_identity.backend_storage_system.client_id
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount

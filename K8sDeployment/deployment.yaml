@@ -14,7 +14,7 @@ spec:
         app: azure-cli
         azure.workload.identity/use: "true"
     spec:
-      serviceAccountName: my-account
+      serviceAccountName: backend-storage-system-sa
       containers:
         - image: mcr.microsoft.com/azure-cli:2.53.0
           name: azure-cli

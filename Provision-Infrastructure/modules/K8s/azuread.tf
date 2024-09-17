@@ -20,7 +20,7 @@ resource "azurerm_role_assignment" "aks_acr" {
 
 # Workload Identity
 locals {
-  identity_name = "backend_storage_system"
+  identity_name = "backend-storage-system"
 }
 
 resource "azurerm_user_assigned_identity" "backend_storage_system" {
@@ -35,7 +35,7 @@ resource "azurerm_federated_identity_credential" "backend_storage_system" {
   audience            = ["api://AzureADTokenExchange"]
   issuer              = azurerm_kubernetes_cluster.default.oidc_issuer_url
   parent_id           = azurerm_user_assigned_identity.backend_storage_system.id
-  subject             = "system:serviceaccount:default:${local.identity_name}"
+  subject             = "system:serviceaccount:default:${local.identity_name}-sa"
 
   depends_on = [azurerm_kubernetes_cluster.default]
 }

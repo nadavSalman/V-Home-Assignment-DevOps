@@ -52,6 +52,5 @@ output "aks_rg_name" {
 
 
 output "backend_storage_system_uai_client_id" {
-  value = azurerm_federated_identity_credential.backend_storage_system.client_id
-  # value = azurerm_user_assigned_identity.backend_storage_system.client_id
+  value = azurerm_user_assigned_identity.backend_storage_system.client_id
 }
