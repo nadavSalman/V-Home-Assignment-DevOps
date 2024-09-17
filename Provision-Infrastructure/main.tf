@@ -16,12 +16,11 @@ module "K8sInfra" {
   rg_name = "kubernetesvaronis"
 }
 
-module "BackendStorageSystem" {
-  source = "./modules/BackendStorageSystem"
+module "K8sInfraDeployment" {
+  source = "./modules/K8sInfraDeployment"
 
-  # Init module arguments
-  rg_name = "rg-backend-storage-system-prd"
-
-  depends_on = [module.K8sInfra]
+  aks_host                   = module.K8sInfra.aks_host
+  aks_client_certificate     = module.K8sInfra.aks_client_certificate
+  aks_client_key             = module.K8sInfra.aks_client_key
+  aks_cluster_ca_certificate = module.K8sInfra.aks_cluster_ca_certificate
 }
-
