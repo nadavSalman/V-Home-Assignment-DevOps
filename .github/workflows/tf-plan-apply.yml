@@ -172,10 +172,17 @@ jobs:
 
     - name: Commit changes if files are modified
       run: |
-        git commit -m "Update prep_deployment.yaml and service_acount.yaml"
+        # Check if there are any changes to commit
+        if git diff-index --quiet HEAD; then
+          echo "No changes to commit"
+        else
+          git commit -m "Update prep_deployment.yaml and service_acount.yaml"
+        fi
+      continue-on-error: true
 
     - name: Push changes
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git push origin main || echo "Nothing to push, repository is up to date."
+      continue-on-error: true
