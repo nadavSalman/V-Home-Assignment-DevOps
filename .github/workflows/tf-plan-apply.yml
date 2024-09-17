@@ -142,16 +142,17 @@ jobs:
         path: ./Provision-Infrastructure/
 
 
-    - name: 'Login to Azure'
-      env:
-        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    - name: 'Login to Azure AND Terraform Apply'
+      # env:
+      #   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      #   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      #   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       run: |
         az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+        terraform apply -auto-approve tfplan
 
 
-    # Terraform Apply
-    - name: Terraform Apply
-      working-directory: ./Provision-Infrastructure
-      run: terraform apply -auto-approve tfplan
+    # # Terraform Apply
+    # - name: Terraform Apply
+    #   working-directory: ./Provision-Infrastructure
+    #   run: terraform apply -auto-approve tfplan
