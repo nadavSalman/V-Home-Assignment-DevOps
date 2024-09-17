@@ -16,14 +16,14 @@ env:
   ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
 
 jobs:
-  download:
+  SetupCluster:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
     
-      - name: AKS get-cred
-        working-directory: ./Provision-Infrastructure
+      - name: AKS get-credentials
+        # working-directory: ./Provision-Infrastructure
         run: |
           yaml_file="./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml"
 
@@ -42,7 +42,7 @@ jobs:
 
 
       - name: Helm Install/Upgrade Nginx ingress Controller
-        working-directory: ./Provision-Infrastructure
+        # working-directory: ./Provision-Infrastructure
         run: |
           helm upgrade --install external \
           --repo https://kubernetes.github.io/ingress-nginx \
