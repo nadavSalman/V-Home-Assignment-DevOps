@@ -27,8 +27,3 @@ resource "local_file" "foo" {
   )
   filename = "${path.module}/prep_deployment.yaml"
 }
-
-# Output the rendered template
-output "prep_deployment" {
-  value = data.template_file.prep_deployment.rendered
-}
