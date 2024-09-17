@@ -2,7 +2,7 @@ variable "subscription_id" {
   type = string
 }
 
-variable "ask_name" {
+variable "aks_name" {
   type = string
 }
 
@@ -18,6 +18,6 @@ variable "aks_rg_name" {
   type = string
 }
 
-variable "continer_name" {
+variable "container_name" {
   type = string
 }
