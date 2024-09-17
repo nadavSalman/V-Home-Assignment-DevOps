@@ -1,5 +1,5 @@
 # Second Workflow (e.g., `.github/workflows/use-artifacts.yml`)
-name: 'Helm Chart Setup'
+name: 'Cluster Setup'
 
 on:
   
@@ -14,9 +14,10 @@ env:
   ARM_CLIENT_SECRET: "${{ secrets.ARM_CLIENT_SECRET }}"
   ARM_SUBSCRIPTION_ID: "${{ secrets.ARM_SUBSCRIPTION_ID }}"
   ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
+  yaml_file: "./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml"
 
 jobs:
-  SetupCluster:
+  Nginx-Ingress-Controller:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -25,7 +26,7 @@ jobs:
       - name: AKS get-credentials
         # working-directory: ./Provision-Infrastructure
         run: |
-          yaml_file="./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml"
+          # yaml_file="./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml"
 
           # Extract values using yq
           resource_group_name=$(yq eval '.AzureResources.AKS.ResourceGroup' "$yaml_file")
@@ -56,5 +57,31 @@ jobs:
           --create-namespace \
           --version 4.8.0 \
           --values ./K8sDeployment/nginx-ingress-contorrler/values/ingress.yaml
+    
+  ACR-imagePullSecrets:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+      
+        - name: AKS get-credentials
+          # working-directory: ./Provision-Infrastructure
+          run: |
+            yaml_file="./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml"
+
+            # Extract values using yq
+            ACR_NAME=$(yq eval '.AzureResources.ACR.name' "$yaml_file")
+
+            # Check if the secret acr-secret exists in the default namespace
+            if kubectl get secret acr-secret --namespace default >/dev/null 2>&1; then
+                echo "Secret 'acr-secret' already exists in the 'default' namespace. Skipping secret creation."
+            else
+                echo "Secret 'acr-secret' does not exist. Creating secret."
+                kubectl create secret docker-registry acr-secret \
+                    --namespace default \
+                    --docker-server=$ACR_NAME.azurecr.io \
+                    --docker-username=$ARM_CLIENT_ID \
+                    --docker-password=$ARM_CLIENT_SECRET
+            fi
 
 
