@@ -1,15 +1,15 @@
 variable "aks_rg" {
-  type        = string
+  type = string
 }
 
 variable "aks_name" {
-  type        = string
+  type = string
 }
 
 variable "aks_host" {
-  type        = string
+  type = string
 }
 
 variable "aks_cluster_ca_certificate" {
-  type        = string
+  type = string
 }
