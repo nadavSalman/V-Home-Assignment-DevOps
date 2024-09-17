@@ -40,6 +40,11 @@ jobs:
 
           
 
+      - name: kubectl config current-context
+        # working-directory: ./Provision-Infrastructure
+        run: |
+          kubectl config current-context
+  
 
       - name: Helm Install/Upgrade Nginx ingress Controller
         # working-directory: ./Provision-Infrastructure
