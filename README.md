@@ -218,7 +218,7 @@ serviceaccount/backend-storage-system-sa created
 ```
 
 
-Deploy az-cli continer and exec :
+Deploy az-cli continer and exec  (With service account attached :  `spec.serviceAccountName`):
 ```bash
 Varonis-Home-Assignment-DevOps/K8sDeployment on  main [!] 
 ❯ k get pods 
