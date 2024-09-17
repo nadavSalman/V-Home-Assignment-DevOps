@@ -1,0 +1,9 @@
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backend-storage-system-sa
+  namespace: default
+  annotations:
+    azure.workload.identity/client-id: 455528dc-5cbc-44ff-944a-5345af508f15
+EOF
