@@ -148,15 +148,46 @@ jobs:
         terraform apply -auto-approve tfplan
 
     # Save prep_deployment.yaml to artifacts  
-    - name: Save prep_deployment.yaml to artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: prep_deployment
-        path: ./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml
+    # - name: Save prep_deployment.yaml to artifacts
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: prep_deployment
+    #     path: ./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml
 
-    - name: Save service_acount.yaml to artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: service_acount
-        path: ./Provision-Infrastructure/modules/DeploymentPrep/service_acount.yaml
-   
+    # - name: Save service_acount.yaml to artifacts
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: service_acount
+    #     path: ./Provision-Infrastructure/modules/DeploymentPrep/service_acount.yaml
+
+  commit_files:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history to ensure you can commit properly
+
+      # Step 2: Add files to git staging (this will overwrite any existing files)
+      - name: Add prep_deployment.yaml and service_acount.yaml to Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Ensure new or updated files are added, overwriting old ones
+          git add ./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml
+          git add ./Provision-Infrastructure/modules/DeploymentPrep/service_acount.yaml
+
+      # Step 3: Check if there are changes to commit
+      - name: Commit changes if files are modified
+        run: |
+          git diff-index --quiet HEAD || git commit -m "Update prep_deployment.yaml and service_acount.yaml"
+
+      # Step 4: Push changes to the repository
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push origin main
+

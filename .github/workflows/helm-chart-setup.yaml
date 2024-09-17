@@ -2,6 +2,7 @@
 name: 'Helm Chart Setup'
 
 on:
+    
   workflow_run:
     workflows: ["Terraform Plan/Apply"]
     types:
