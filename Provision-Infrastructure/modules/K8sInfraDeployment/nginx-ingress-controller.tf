@@ -1,5 +1,5 @@
 resource "helm_release" "external_nginx" {
-  name = "nginx-ingress-controller-external"
+  name = "external"
 
   repository       = "https://kubernetes.github.io/ingress-nginx"
   chart            = "ingress-nginx"
