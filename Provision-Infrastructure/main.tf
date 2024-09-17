@@ -28,7 +28,7 @@ module "DeploymentPrep" {
   acr_name             = module.K8sInfra.acr_name
   storage_account_name = module.K8sInfra.storage_account_name
   container_name       = module.K8sInfra.storage_container_name
-
+  storace_accoun_uai_client_id = module.K8sInfra.backend_storage_system_uai_client_id
 }
 
 # module "K8sInfraDeployment" {
