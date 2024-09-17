@@ -61,7 +61,7 @@ jobs:
       - name: AKS get-credentials
         working-directory: ./RestaurantApp/helm
         run: |
-          #./K8sDeployment/scripts/aks-get-credentials.sh  
+          ./K8sDeployment/scripts/aks-get-credentials.sh  
           helm upgrade --install restaurants-app ./restaurants-app/ \
             -f ../../Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml \
-            --set image.tag="$IMAGE_TAG"
+            --set image.tag="${{ env.IMAGE_TAG }}"
