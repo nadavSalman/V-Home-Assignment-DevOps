@@ -15,7 +15,7 @@ data "template_file" "prep_deployment" {
 
 
 resource "local_file" "foo" {
-  content = templatefile("${path.module}/templates/prep_deployment.tftpl",
+  content = templatefile("${path.module}/templets/prep_deployment.tftpl",
     {
       subscription_id      = var.subscription_id
       aks_name             = var.aks_name
