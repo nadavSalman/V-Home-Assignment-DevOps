@@ -55,6 +55,6 @@ jobs:
           --namespace ingress \
           --create-namespace \
           --version 4.8.0 \
-          --values path/to/values/ingress.yaml
+          --values ./K8sDeployment/nginx-ingress-contorrler/values/ingress.yaml
 
 
