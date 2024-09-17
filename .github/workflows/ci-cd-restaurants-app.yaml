@@ -40,17 +40,14 @@ jobs:
           TIMESTAMP=$(date +%Y-%m-%d-%H-%M)
           echo "IMAGE_TAG=${TIMESTAMP}" >> $GITHUB_ENV
 
-      - name: Build Docker image
+      - name: Build and Push Docker image
         working-directory: ./RestaurantApp
         run: |
-          docker build -t ${{ env.ACR_NAME }}.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }} .
+          ACR_NAME=$(yq eval '.AzureResources.ACR.name' "$yaml_file")
+          docker build -t $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }} .
+          docker push $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }}
 
-      - name: Push Docker image
-        working-directory: ./RestaurantApp
-        run: |
-          docker push ${{ env.ACR_NAME }}.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }}
-
-          
+   
           
   CD:
     runs-on: ubuntu-latest
