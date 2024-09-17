@@ -59,9 +59,8 @@ jobs:
         uses: actions/checkout@v4
     
       - name: AKS get-credentials
-        working-directory: ./RestaurantApp/helm
         run: |
           ./K8sDeployment/scripts/aks-get-credentials.sh  
-          helm upgrade --install restaurants-app ./restaurants-app/ \
+          helm upgrade --install restaurants-app ./RestaurantApp/restaurants-app/helm \
             -f ../../Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml \
             --set image.tag="${{ env.IMAGE_TAG }}"
