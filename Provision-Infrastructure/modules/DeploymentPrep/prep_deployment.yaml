@@ -1,0 +1,12 @@
+AzureResources:
+  subscriptionID: a0a57880-1a49-461b-a574-8c926ae8c347
+  AKS:
+    name: varonis-aks
+    ResourceGroup: kubernetesvaronis
+  ACR:
+    name: tfqvaronisquetzalacr
+    ResourceGroup: kubernetesvaronis
+  backendStorageSystem:
+    storageAccountName: devtest2391276
+    ResourceGroup: kubernetesvaronis
+    continerName: restaurants
