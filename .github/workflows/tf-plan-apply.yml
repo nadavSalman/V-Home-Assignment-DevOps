@@ -172,11 +172,7 @@ jobs:
 
     - name: Commit changes if files are modified
       run: |
-        if ! git diff-index --quiet HEAD; then
-          git commit -m "Update prep_deployment.yaml and service_acount.yaml"
-        else
-          echo "No changes to commit."
-        fi
+        git commit -m "Update prep_deployment.yaml and service_acount.yaml"
 
     - name: Push changes
       env:
