@@ -6,7 +6,7 @@ resource "null_resource" "get_kubeconfig" {
 
 provider "helm" {
   kubernetes {
-    config_path = "${pathexpand("~/.kube/config")}"
+    config_path = pathexpand("~/.kube/config")
   }
 }
 

@@ -9,5 +9,5 @@ resource "helm_release" "external_nginx" {
 
   values = [file("${path.module}/nginx-ingress-controller-values/ingress.yaml")]
 
-  depends_on = [ null_resource.get_kubeconfig ]
+  depends_on = [null_resource.get_kubeconfig]
 }
