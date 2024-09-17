@@ -13,3 +13,8 @@ variable "aks_host" {
 variable "aks_cluster_ca_certificate" {
   type = string
 }
+
+variable "subscription_id" {
+  description = "The Azure subscription ID."
+  type        = string
+}

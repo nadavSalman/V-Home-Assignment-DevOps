@@ -24,5 +24,6 @@ module "K8sInfraDeployment" {
   aks_rg                     = module.K8sInfra.aks_rg_name
   aks_host                   = module.K8sInfra.aks_host
   aks_cluster_ca_certificate = module.K8sInfra.aks_cluster_ca_certificate
+  subscription_id            = module.K8sInfra.subscription_id
 
 }
