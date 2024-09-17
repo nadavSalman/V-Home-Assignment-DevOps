@@ -10,6 +10,3 @@ AzureResources:
     storageAccountName: devtest2391276
     ResourceGroup: kubernetesvaronis
     continerName: restaurants
-
-
-
