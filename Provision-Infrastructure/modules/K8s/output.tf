@@ -20,6 +20,6 @@ output "aks_cluster_ca_certificate" {
 }
 
 output "kube_config" {
-  value = data.azurerm_kubernetes_cluster.this.kube_config[0].raw_config
+  value = data.azurerm_kubernetes_cluster.this.kube_config_raw
 }
 

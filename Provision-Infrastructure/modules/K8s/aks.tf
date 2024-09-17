@@ -46,6 +46,6 @@ data "azurerm_kubernetes_cluster" "this" {
 
 
 resource "local_file" "kubeconfig" {
-  content  = data.azurerm_kubernetes_cluster.this.kube_config[0].raw_config
+  content  = data.azurerm_kubernetes_cluster.this.kube_config_raw
   filename = "~/.kube/config"
 }
