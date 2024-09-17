@@ -28,12 +28,11 @@ jobs:
 
 
 
-      - name: Load ACR name
+      - name: ACR login
         # working-directory: ./Provision-Infrastructure
         run: |
           ACR_NAME=$(yq eval '.AzureResources.ACR.name' "$yaml_file")
           az acr login --name $ACR_NAME
-          echo "ACR_NAME=${TIMESTAMP}" >> $GITHUB_ENV
 
       - name: Set up Docker tag with timestamp
         id: vars
