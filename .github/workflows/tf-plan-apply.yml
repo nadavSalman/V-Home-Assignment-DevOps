@@ -160,7 +160,3 @@ jobs:
         name: service_acount
         path: ./Provision-Infrastructure/modules/DeploymentPrep/service_acount.yaml
    
-        # # Terraform Apply
-    # - name: Terraform Apply
-    #   working-directory: ./Provision-Infrastructure
-    #   run: terraform apply -auto-approve tfplan

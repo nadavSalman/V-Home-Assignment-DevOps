@@ -64,12 +64,8 @@ IaC: Terraform
 ---
 
 
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+
+
 <br/>
 <br/>
 <br/>
@@ -198,10 +194,9 @@ Navigate to The repo `Actions` > `Secrets and variables` > `Actions` , then clic
 
 ![alt text](Images/GithubActionSecrets.png)
 
-Create INfrastructure : 
-Therer ate two flow witch aoutomatiocly trrigerd to provision infrastructure using terrafom acording to teh auth diagram above.
+Provision Infrastructure:
 
-
+There are two (CI-CD) flows that are automatically triggered to provision infrastructure using Terraform, according to the architecture diagram above.
 
 
 

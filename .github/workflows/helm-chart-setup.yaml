@@ -1,0 +1,35 @@
+# Second Workflow (e.g., `.github/workflows/use-artifacts.yml`)
+name: 'Helm Chart Setup'
+
+on:
+  workflow_run:
+    workflows: ["Terraform Plan/Apply"]
+    types:
+      - completed
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download prep_deployment.yaml
+        uses: actions/download-artifact@v4
+        with:
+          name: prep_deployment
+
+      - name: Download service_acount.yaml
+        uses: actions/download-artifact@v4
+        with:
+          name: service_acount
+
+      - name: Use prep_deployment.yaml
+        run: |
+          cat prep_deployment.yaml
+          # Add commands to use the prep_deployment.yaml file
+
+      - name: Use service_acount.yaml
+        run: |
+          cat service_acount.yaml
+          # Add commands to use the service_acount.yaml file
