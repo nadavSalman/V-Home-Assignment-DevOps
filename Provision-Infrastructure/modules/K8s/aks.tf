@@ -45,11 +45,24 @@ data "azurerm_kubernetes_cluster" "this" {
 }
 
 
-resource "null_resource" "get_kubeconfig" {
-  provisioner "local-exec" {
-    command = "az aks get-credentials --resource-group ${azurerm_kubernetes_cluster.default.resource_group_name} --name ${azurerm_kubernetes_cluster.default.name}"
+provider "helm" {
+  kubernetes {
+    host                   = data.azurerm_kubernetes_cluster.this.kube_config.0.host
+    client_certificate     = base64decode(data.azurerm_kubernetes_cluster.this.kube_config.0.client_certificate)
+    client_key             = base64decode(data.azurerm_kubernetes_cluster.this.kube_config.0.client_key)
+    cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate)
   }
+}
 
-  depends_on = [azurerm_kubernetes_cluster.default]
+resource "helm_release" "external_nginx" {
+  name = "external"
+
+  repository       = "https://kubernetes.github.io/ingress-nginx"
+  chart            = "ingress-nginx"
+  namespace        = "ingress"
+  create_namespace = true
+  version          = "4.8.0"
+
+  values = [file("${path.module}/values/ingress.yaml")]
 
 }
