@@ -4,6 +4,10 @@ from restaurants_inventory.restaurant import Restaurant
 from datetime import datetime
 
 
+from azure.identity import DefaultAzureCredential
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+import json
+
 
 app = Flask(__name__)
 
@@ -31,9 +35,15 @@ def get_recommendation():
     # Get recommendation
     recommendation = inventory.get_recommendation(style, vegetarian, current_time)
 
-    if recommendation:
-        return jsonify({
-            "massage" : f"A {get_recommendation}",
+
+
+    # Track history by updatein blob storage
+    container_name = 'restaurants'
+    blob_name = 'request_response.json'
+    
+
+    recommendation_response = {
+            "massage" : f"Add a greeting ....",
             "restaurantRecommendation": {
                 "name": recommendation.name,
                 "style": recommendation.style,
@@ -42,7 +52,37 @@ def get_recommendation():
                 "closeHour": recommendation.close_hour,
                 "vegetarian": recommendation.vegetarian
             }
-        })
+    }
+
+    blob_data = {
+        'request': {
+            'style': 'value1',
+            'vegetarian': 'value2',
+            'time': 'value2'
+        },
+        'response': {
+            'data': recommendation_response
+        }
+    }
+
+    # Initialize DefaultAzureCredential which will use the Managed Identity
+    credential = DefaultAzureCredential()
+
+    # Create BlobServiceClient using Managed Identity
+    blob_service_client = BlobServiceClient(
+        account_url="https://devtest2391276.blob.core.windows.net",  # replace storageAccountName with env
+        credential=credential
+    )
+
+    # Get the container client
+    container_client = blob_service_client.get_container_client(container_name)
+    blob_client = container_client.get_blob_client(blob_name)
+    json_data = json.dumps(blob_data)
+    blob_client.upload_blob(json_data, overwrite=True)
+    app.logger.info(f"Blob '{blob_name}' uploaded to container '{container_name}'.")
+
+    if recommendation:
+        return jsonify(recommendation_response)
     else:
         return jsonify({"message": "No matching restaurant found."}), 404
 
