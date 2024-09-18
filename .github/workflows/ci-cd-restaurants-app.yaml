@@ -44,8 +44,17 @@ jobs:
         run: |
           ACR_NAME=$(yq eval '.AzureResources.ACR.name' "$yaml_file")
           cd RestaurantApp/
-          docker build -t $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }} .
+
+          # Build the image with both the specific tag and the 'latest' tag
+          docker build -t $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }}  -t $ACR_NAME.azurecr.io/restaurants-app:latest .
+
+          # Push both tags to the Azure Container Registry
           docker push $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }}
+          docker push $ACR_NAME.azurecr.io/restaurants-app:latest
+
+          #docker build -t $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }} .
+          #docker push $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }}
+          
           cd ..
 
 
@@ -58,11 +67,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
     
-      - name: AKS get-credentials
+      - name: Helm Upgrade-Install
         run: |
           ./K8sDeployment/scripts/aks-get-credentials.sh  
           pwd
           ls -la
           helm upgrade --install restaurants-app ./RestaurantApp/helm/restaurants-app \
             -f ./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml \
-            --set image.tag="${{ env.IMAGE_TAG }}"
+            --set image.tag="latest"
+          
