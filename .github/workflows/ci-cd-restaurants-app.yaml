@@ -63,6 +63,6 @@ jobs:
           ./K8sDeployment/scripts/aks-get-credentials.sh  
           pwd
           ls -la
-          helm upgrade --install restaurants-app ./RestaurantApp/restaurants-app/helm \
-            -f ../../Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml \
+          helm upgrade --install restaurants-app ./RestaurantApp/helm/restaurants-app \
+            -f ./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml \
             --set image.tag="${{ env.IMAGE_TAG }}"
