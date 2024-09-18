@@ -358,3 +358,13 @@ Varonis-Home-Assignment-DevOps on  main [!]
 
 Varonis-Home-Assignment-DevOps on  main [!]
 ```
+
+
+
+Using GitHub Actions to streamline the CI/CD system.
+<br/>
+<br/>
+<br/>
+
+![alt text](Images/Flows.png)
+![alt text](Images/image.png)
