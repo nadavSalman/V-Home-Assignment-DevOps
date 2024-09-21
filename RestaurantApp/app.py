@@ -7,6 +7,7 @@ from datetime import datetime
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 import json
+import os
 
 
 app = Flask(__name__)
@@ -70,7 +71,7 @@ def get_recommendation():
 
     # Create BlobServiceClient using Managed Identity
     blob_service_client = BlobServiceClient(
-        account_url="https://devtest4514124.blob.core.windows.net",  # replace storageAccountName with env
+        account_url=f"https://{os.getenv('STORAGE_ACCOUNT_NAME')}.blob.core.windows.net",  # replace storageAccountName with env
         credential=credential
     )
 
