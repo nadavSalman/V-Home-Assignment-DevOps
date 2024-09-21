@@ -367,4 +367,19 @@ Using GitHub Actions to streamline the CI/CD system.
 <br/>
 
 ![alt text](Images/Flows.png)
-![alt text](Images/image.png)
+![alt text](Images/ci-cd.png)
+
+
+
+**App Blob Integration test**
+
+```bash
++ echo 'Testing recommendation with no matching results (Mexican vegetarian restaurant open at 10:00):'
+Testing recommendation with no matching results (Mexican vegetarian restaurant open at 10:00):
++ curl 'http://localhost:8080/recommendation?style=Mexican&vegetarian=No&current_time=10:00'
+{"massage":"Add a greeting ....","restaurantRecommendation":{"address":"Wherever Street 99, Somewhere","closeHour":"23:00","name":"Pizza Hut","openHour":"09:00","style":"Italian","vegetarian":"Yes"}}
++ echo -e '\n'
+```
+
+
+![alt text](Images/blob-example.png)

@@ -13,3 +13,6 @@ class Restaurant:
         open_time = datetime.strptime(self.open_hour, "%H:%M").time()
         close_time = datetime.strptime(self.close_hour, "%H:%M").time()
         return open_time <= current_time <= close_time
+    
+    def get_name(self):
+        return self.name

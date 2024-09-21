@@ -8,6 +8,7 @@ from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 import json
 import os
+import uuid
 
 
 app = Flask(__name__)
@@ -34,17 +35,17 @@ def get_recommendation():
     current_time = datetime.strptime(current_time_str, "%H:%M").time()
 
     # Get recommendation
-    recommendation = inventory.get_recommendation(style, vegetarian, current_time)
+    recommendation:Restaurant = inventory.get_recommendation(style, vegetarian, current_time)
 
 
 
     # Track history by updatein blob storage
     container_name = 'restaurants'
-    blob_name = 'request_response.json'
+    blob_name = f'request_response_{uuid.uuid4()}.json'
     
 
     recommendation_response = {
-            "massage" : f"Add a greeting ....",
+            "massage" : f"The restaurant {recommendation.get_name()} {recommendation.is_open() }.",
             "restaurantRecommendation": {
                 "name": recommendation.name,
                 "style": recommendation.style,
