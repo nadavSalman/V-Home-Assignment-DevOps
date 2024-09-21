@@ -70,7 +70,7 @@ def get_recommendation():
 
     # Create BlobServiceClient using Managed Identity
     blob_service_client = BlobServiceClient(
-        account_url="https://devtest2391276.blob.core.windows.net",  # replace storageAccountName with env
+        account_url="https://devtest4514124.blob.core.windows.net",  # replace storageAccountName with env
         credential=credential
     )
 

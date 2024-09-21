@@ -1,7 +1,10 @@
 #!/bin/bash -x
 
 # Base URL of the Flask app
-BASE_URL="http://localhost:5000/recommendation"
+# BASE_URL="http://localhost:5000/recommendation"
+BASE_URL="http://localhost:8080/recommendation"
+
+
 
 echo "Testing basic recommendation:"
 curl "$BASE_URL"
