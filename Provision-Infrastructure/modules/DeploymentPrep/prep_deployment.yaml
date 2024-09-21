@@ -4,9 +4,9 @@ AzureResources:
     name: varonis-aks
     ResourceGroup: kubernetesvaronis
   ACR:
-    name: tfqvaronisquetzalacr
+    name: tfqvaronismartenacr
     ResourceGroup: kubernetesvaronis
   backendStorageSystem:
-    storageAccountName: devtest2391276
+    storageAccountName: devtest4514124
     ResourceGroup: kubernetesvaronis
     continerName: restaurants

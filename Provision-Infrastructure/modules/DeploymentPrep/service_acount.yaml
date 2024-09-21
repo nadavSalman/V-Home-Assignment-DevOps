@@ -4,4 +4,4 @@ metadata:
   name: backend-storage-system-sa
   namespace: default
   annotations:
-    azure.workload.identity/client-id: cd67baa1-3a29-49ce-8b25-805e272ca0bb
+    azure.workload.identity/client-id: 1a5fce98-2938-4517-abdb-01c5889c383e
