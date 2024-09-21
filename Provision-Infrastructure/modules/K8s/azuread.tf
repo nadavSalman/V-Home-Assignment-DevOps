@@ -41,7 +41,7 @@ resource "azurerm_federated_identity_credential" "backend_storage_system" {
 }
 
 resource "azurerm_role_assignment" "blob_storage_access" {
-  principal_id   = azurerm_user_assigned_identity.backend_storage_system.principal_id
+  principal_id         = azurerm_user_assigned_identity.backend_storage_system.principal_id
   role_definition_name = "Storage Blob Data Contributor"
-  scope          = azurerm_storage_account.backend_system.id
+  scope                = azurerm_storage_account.backend_system.id
 }
