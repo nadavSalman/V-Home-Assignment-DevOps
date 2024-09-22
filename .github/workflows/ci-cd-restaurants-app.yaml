@@ -33,7 +33,7 @@ jobs:
         run: |
           ACR_NAME=$(yq eval '.AzureResources.ACR.name' "$yaml_file")
           az acr login --name $ACR_NAME
-          echo "::set-output name=IMAGE_TAG::${TIMESTAMP}"
+          # echo "::set-output name=IMAGE_TAG::${TIMESTAMP}"
 
       - name: Set up Docker tag with timestamp
         id: vars
@@ -46,13 +46,15 @@ jobs:
           ACR_NAME=$(yq eval '.AzureResources.ACR.name' "$yaml_file")
           cd RestaurantApp/
 
-          # Build the image with both the specific tag and the 'latest' tag
           docker build -t $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }} .
 
           # Push both tags to the Azure Container Registry
           docker push $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }}
 
           cd ..
+
+    outputs:
+      image_tag: ${{ env.IMAGE_TAG }}
 
 
    
@@ -69,7 +71,12 @@ jobs:
           ./K8sDeployment/scripts/aks-get-credentials.sh  
           pwd
           ls -la
+
+          helm template restaurants-app ./RestaurantApp/helm/restaurants-app \
+            -f ./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml \
+            --set image.tag="${{ needs.CI.outputs.image_tag }}"
+
           helm upgrade --install restaurants-app ./RestaurantApp/helm/restaurants-app \
             -f ./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml \
-            --set image.tag="${{ needs.CI.outputs.IMAGE_TAG }}"
+            --set image.tag="${{ needs.CI.outputs.image_tag }}"
           
