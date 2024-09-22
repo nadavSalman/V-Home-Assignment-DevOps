@@ -374,11 +374,22 @@ Using GitHub Actions to streamline the CI/CD system.
 **App Blob Integration test**
 
 ```bash
-+ echo 'Testing recommendation with no matching results (Mexican vegetarian restaurant open at 10:00):'
-Testing recommendation with no matching results (Mexican vegetarian restaurant open at 10:00):
-+ curl 'http://localhost:8080/recommendation?style=Mexican&vegetarian=No&current_time=10:00'
-{"massage":"Add a greeting ....","restaurantRecommendation":{"address":"Wherever Street 99, Somewhere","closeHour":"23:00","name":"Pizza Hut","openHour":"09:00","style":"Italian","vegetarian":"Yes"}}
-+ echo -e '\n'
+Varonis-Home-Assignment-DevOps/RestaurantApp on  main via 🐍 v3.12.3 (venv) 
+❯ curl 'http://restaurants.app/recommendation?style=Mexican&vegetarian=No&current_time=10:00' | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   225  100   225    0     0    149      0  0:00:01  0:00:01 --:--:--   149
+{
+  "massage": "The restaurant Pizza Hut , Is open ? : True.",
+  "restaurantRecommendation": {
+    "address": "Wherever Street 99, Somewhere",
+    "closeHour": "23:00",
+    "name": "Pizza Hut",
+    "openHour": "09:00",
+    "style": "Italian",
+    "vegetarian": "Yes"
+  }
+}
 ```
 
 
