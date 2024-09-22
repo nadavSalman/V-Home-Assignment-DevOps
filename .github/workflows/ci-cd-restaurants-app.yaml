@@ -33,6 +33,7 @@ jobs:
         run: |
           ACR_NAME=$(yq eval '.AzureResources.ACR.name' "$yaml_file")
           az acr login --name $ACR_NAME
+          echo "::set-output name=IMAGE_TAG::${TIMESTAMP}"
 
       - name: Set up Docker tag with timestamp
         id: vars
@@ -70,5 +71,5 @@ jobs:
           ls -la
           helm upgrade --install restaurants-app ./RestaurantApp/helm/restaurants-app \
             -f ./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml \
-            --set image.tag="${{ env.IMAGE_TAG }}"
+            --set image.tag="${{ needs.CI.outputs.IMAGE_TAG }}"
           
