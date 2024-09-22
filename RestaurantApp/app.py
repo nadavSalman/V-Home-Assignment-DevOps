@@ -45,7 +45,7 @@ def get_recommendation():
     
 
     recommendation_response = {
-            "massage" : f"The restaurant {recommendation.get_name()} {recommendation.is_open(current_time=current_time) }.",
+            "massage" : f"The restaurant {recommendation.get_name()} , Is open ? : {recommendation.is_open(current_time=current_time) }.",
             "restaurantRecommendation": {
                 "name": recommendation.name,
                 "style": recommendation.style,
