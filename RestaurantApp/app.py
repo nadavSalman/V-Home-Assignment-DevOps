@@ -45,7 +45,7 @@ def get_recommendation():
     
 
     recommendation_response = {
-            "massage" : f"The restaurant {recommendation.get_name()} {recommendation.is_open() }.",
+            "massage" : f"The restaurant {recommendation.get_name()} {recommendation.is_open(current_time=current_time) }.",
             "restaurantRecommendation": {
                 "name": recommendation.name,
                 "style": recommendation.style,
@@ -58,9 +58,9 @@ def get_recommendation():
 
     blob_data = {
         'request': {
-            'style': 'value1',
-            'vegetarian': 'value2',
-            'time': 'value2'
+            'style': style,
+            'vegetarian': vegetarian,
+            'time': current_time
         },
         'response': {
             'data': recommendation_response
