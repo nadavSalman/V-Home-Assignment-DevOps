@@ -2,7 +2,10 @@
 
 # Base URL of the Flask app
 # BASE_URL="http://localhost:5000/recommendation"
-BASE_URL="http://localhost:8080/recommendation"
+# BASE_URL="http://localhost:8080/recommendation"
+BASE_URL="http://restaurants.app/recommendation"
+
+
 
 
 
