@@ -60,7 +60,7 @@ def get_recommendation():
         'request': {
             'style': style,
             'vegetarian': vegetarian,
-            'time': current_time
+            'time': current_time.strftime("%H:%M")
         },
         'response': {
             'data': recommendation_response
