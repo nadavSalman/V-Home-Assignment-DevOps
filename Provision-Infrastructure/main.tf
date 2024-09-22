@@ -8,15 +8,11 @@ terraform {
 }
 
 
-
-
 module "K8sInfra" {
   source = "./modules/K8s"
 
   rg_name = "kubernetesvaronis"
 }
-
-
 
 
 module "DeploymentPrep" {
@@ -30,14 +26,3 @@ module "DeploymentPrep" {
   container_name               = module.K8sInfra.storage_container_name
   storace_accoun_uai_client_id = module.K8sInfra.backend_storage_system_uai_client_id
 }
-
-# module "K8sInfraDeployment" {
-#   source = "./modules/K8sInfraDeployment"
-
-#   aks_name                   = module.K8sInfra.aks_cluster_name
-#   aks_rg                     = module.K8sInfra.aks_rg_name
-#   aks_host                   = module.K8sInfra.aks_host
-#   aks_cluster_ca_certificate = module.K8sInfra.aks_cluster_ca_certificate
-#   subscription_id            = module.K8sInfra.subscription_id
-
-# }

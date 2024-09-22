@@ -46,15 +46,11 @@ jobs:
           cd RestaurantApp/
 
           # Build the image with both the specific tag and the 'latest' tag
-          docker build -t $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }}  -t $ACR_NAME.azurecr.io/restaurants-app:latest .
+          docker build -t $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }} .
 
           # Push both tags to the Azure Container Registry
           docker push $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }}
-          docker push $ACR_NAME.azurecr.io/restaurants-app:latest
 
-          #docker build -t $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }} .
-          #docker push $ACR_NAME.azurecr.io/restaurants-app:${{ env.IMAGE_TAG }}
-          
           cd ..
 
 
@@ -74,5 +70,5 @@ jobs:
           ls -la
           helm upgrade --install restaurants-app ./RestaurantApp/helm/restaurants-app \
             -f ./Provision-Infrastructure/modules/DeploymentPrep/prep_deployment.yaml \
-            --set image.tag="latest"
+            --set image.tag="${{ env.IMAGE_TAG }}"
           
